@@ -30,5 +30,13 @@ public class HospitalDbContext:DbContext
             opt.Property(e => e.LastName).HasMaxLength(100).IsRequired();
             opt.Property(e => e.Email).HasMaxLength(100).IsRequired();
         });
+        
+        modelBuilder.Entity<Patient>(opt =>
+        {
+            opt.HasKey(e => e.IdPatient);
+            opt.Property(e => e.FirstName).HasMaxLength(100).IsRequired();
+            opt.Property(e => e.LastName).HasMaxLength(100).IsRequired();
+            opt.Property(e => e.Birthdate).HasMaxLength(100).IsRequired();
+        });
     }
 }
