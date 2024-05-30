@@ -17,6 +17,7 @@ public class HospitalDbContext:DbContext
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Medicament> Medicaments { get; set; }
     public DbSet<Prescription> Prescriptions { get; set; }
+    public DbSet<Prescription_Medicament> PrescriptionMedicaments { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -47,6 +48,7 @@ public class HospitalDbContext:DbContext
             opt.Property(e => e.Name).HasMaxLength(100).IsRequired();
             opt.Property(e => e.Description).HasMaxLength(100).IsRequired();
             opt.Property(e => e.Type).HasMaxLength(100).IsRequired();
+            opt.HasMany(e => e.PrescriptionMedicaments).WithOne(e => e.Medicament).HasForeignKey(e => e.IdMedicament);
         });
         modelBuilder.Entity<Prescription>(opt =>
         {
@@ -54,6 +56,20 @@ public class HospitalDbContext:DbContext
             opt.Property(e => e.DueDate).HasColumnType("date").HasMaxLength(100).IsRequired();
             opt.HasOne(e => e.Doctor).WithMany(e => e.Prescriptions).HasForeignKey(e => e.IdDoctor);
             opt.HasOne(e => e.Patient).WithMany(e => e.Prescriptions).HasForeignKey(e => e.IdPatient);
+            opt.HasMany(e => e.PrescriptionMedicaments).WithOne(e => e.Prescription)
+                .HasForeignKey(e => e.IdPrescription);
+            
+        });
+        modelBuilder.Entity<Prescription_Medicament>(opt =>
+        {
+            opt.HasKey(e => new
+            {
+                e.IdPrescription,
+                e.IdMedicament
+            });
+            opt.Property(e => e.Details).HasMaxLength(100).IsRequired();
+            
+            
         });
     }
 }
