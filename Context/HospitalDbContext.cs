@@ -16,6 +16,7 @@ public class HospitalDbContext:DbContext
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Medicament> Medicaments { get; set; }
+    public DbSet<Prescription> Prescriptions { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -46,6 +47,13 @@ public class HospitalDbContext:DbContext
             opt.Property(e => e.Name).HasMaxLength(100).IsRequired();
             opt.Property(e => e.Description).HasMaxLength(100).IsRequired();
             opt.Property(e => e.Type).HasMaxLength(100).IsRequired();
+        });
+        modelBuilder.Entity<Prescription>(opt =>
+        {
+            opt.HasKey(e => e.IdPrescription);
+            opt.Property(e => e.DueDate).HasColumnType("date").HasMaxLength(100).IsRequired();
+            opt.HasOne(e => e.Doctor).WithMany(e => e.Prescriptions).HasForeignKey(e => e.IdDoctor);
+            opt.HasOne(e => e.Patient).WithMany(e => e.Prescriptions).HasForeignKey(e => e.IdPatient);
         });
     }
 }

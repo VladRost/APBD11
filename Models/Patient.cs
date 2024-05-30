@@ -6,4 +6,5 @@ public class Patient
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Birthdate { get; set; }
+    public ICollection<Prescription> Prescriptions { get; set; }
 }
