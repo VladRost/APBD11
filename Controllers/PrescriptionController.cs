@@ -17,7 +17,7 @@ public class PrescriptionController:ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreatePrescription([FromBody] PrescriptionDto prescriptionDto)
+    public async Task<IActionResult> CreatePrescription([FromBody] NewPrescriptionRequest prescriptionDto)
     {
         if (prescriptionDto.DueDate < prescriptionDto.Date)
         {

@@ -86,10 +86,9 @@ namespace APBD10.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPatient"));
 
-                    b.Property<string>("Birthdate")
-                        .IsRequired()
+                    b.Property<DateTime>("Birthdate")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
